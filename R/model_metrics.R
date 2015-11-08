@@ -29,12 +29,14 @@
 
 #' @title Excel-like R^2 function
 #' @name excelR2
+#' @export
 excelR2 = function(x.obs, x.model, warn=FALSE){
   if(warn){
     warning("Why are you using excelR2?  Didn't you read the manual!")
   }
   cor(x.obs, x.model, method="pearson")**2
 }
+
 #' @title RMSE function
 #' @name rmse
 #' @export

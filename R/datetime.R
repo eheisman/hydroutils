@@ -7,6 +7,13 @@
 #' @author Evan Heisman
 #' @description Provides 'lubridate' type functions for getting numeric values from `Date` and `POSIXt` objects based on the water year.
 #' @note \code{wy} is no longer provided due to conflicts with the common use in hydrologic programs
+#' @usage
+#' \code{wateryear(t)}
+#' \code{wymonth(t)}
+#' \code{wyday(t)}
+#' \code{wymonth.abb}
+#' \code{months14()(t)}
+#'
 #' @param t timestamp object (e.g. \code{Date}, \code{POSIXt} classes)
 #' @param splitMonths numerals for months that are to be split in two for 14 (or n) period models, defaults to April (7) and August (11).
 #' @param splitDay day on which months should be split, defaults to 16.
@@ -24,9 +31,9 @@
 #'
 #' \code{wymonth.abb} abbreviated months of year sorted by water year order
 #'
-#' \code{months14} returns a function that when diven a timestamp, returns the 'abbreviated' 14-period months, can be more split periods than just typical 14-periods.
+#' \code{months14} returns a function that when diven a timestamp, returns a factor of the 'abbreviated' 14-period months, can be more split periods than just typical 14-periods.
 #'
-#' @aliases wateryear wymonth wyday wymonth.abb months14
+#' @aliases wateryear wymonth wyday wymonth.abb months14 months14 wy
 
 #' @export
 wateryear <-  function(t) {
