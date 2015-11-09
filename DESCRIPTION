@@ -1,11 +1,20 @@
 Package: hydroutils
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Misc. Plotting and Analysis Functions for Hydrology
 Version: 0.1
 Date: 2015-10-23
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Evan Heisman
+Maintainer: Evan Heisman <heisman+hydroutils@gmail.com>
+URL: http://github.com/eheisman/hydroutils
+Description: Functions for plotting hydrologic frequency curves and handling hydrologic time series data.  This was a catchall for functions developed for the DSSRip package, but were separated out to make available on platforms other than Windows.
+Suggests:
+  plyr
+  lubridate
+  gridExtra
+  grid
+  ggplot2
+  scales
+License: MIT
 LazyData: TRUE
 RoxygenNote: 5.0.0
+BugReports: heisman+hydroutils@gmail.com
