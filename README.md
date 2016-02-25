@@ -1,5 +1,5 @@
 # hydroutils
-An R package for handling hydrology data and plotting hydrologic frequency curves.  Forked from DSSRip to provide these functions in a cross-platform environment.
+An R package for handling hydrology data and plotting hydrologic frequency curves.  Forked from DSSRip to provide these functions in a cross-platform environment.  This package should not require the links to DSSVue and should be useful for more general hydrologic analysis.
 
 ```wateryear```, similar to the ```lubridate``` package's ```year``` function, returns the water year for a timestamp (starting 01 Oct of the previous calendar year). ```wymonth``` returns the month of the water year, starting with October, and the ```wy.month.abb``` constant contains the month abreviations in this order.
 
@@ -15,7 +15,8 @@ For assessing the fit of hydrologic models, the functions ```nash.sutcliff```, `
 annual_peaks_data.dss contains a record with a USGS flow frequency record.
 
 ```r
-require(dssrip) # use your own data, or the nile dataset included in R.
+require(hydroutils)
+require(dssrip) # or use your own data or the R example 'nile' dataset
 require(ggplot2)
 require(scales)
 
@@ -32,8 +33,9 @@ ggplot(peaks, aes(y=FLOW, x=weibullProbs(FLOW))) + geom_point() +
 ```
 
 ## Quick monthly summary hydrograph
-test.dss contains a daily flow record downloaded with the USGS Import tool in DSSVue for the Delaware River at Trenton, NJ (USGS #01463500).  This isn't the best example of a summary hydrograph, and definitely not the best way to do it, but gives an idea of seasonality.
+test.dss contains a daily flow record downloaded with the USGS Import tool in DSSVue for the Delaware River at Trenton, NJ (USGS #01463500).  This isn't the best example of a summary hydrograph, and definitely not the best way to do it, but gives an idea of seasonality and creating a WY based plot with `wymonth` and `wymonth.abb`.
 ```r
+require(hydroutils)
 require(dssrip)
 require(ggplot2) # for plotting and fortify command
 mydssfile = opendss("F:/test.dss")
