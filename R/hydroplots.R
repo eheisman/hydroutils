@@ -56,7 +56,7 @@
 #'   stat_smooth(method="glm", family=gaussian(link="log"))
 
 #' @export
-flowBreaks <- function(Q, labels=c(1,2,3,5,7)){
+flowBreaks <- function(Q, labels=c(1,2,3,5,7), blankLines=TRUE){
   logRange = log10(range(Q))
   lower = 10^floor(logRange[1])
   upper = 10^ceiling(logRange[2])
@@ -64,9 +64,14 @@ flowBreaks <- function(Q, labels=c(1,2,3,5,7)){
   ybreaks = NULL
   ynames = NULL
   while(cap < upper){
-    ybreaks = c(ybreaks, seq(cap, cap*9, by=cap))
-    ynames = c(ynames, ifelse(seq(1,9) %in% labels,
-                              as.character(seq(cap, cap*9, by=cap)), ""))
+    if(blankLines){
+      newBreaks = seq(cap, cap*10-1, by=cap/10)
+    } else {
+      newBreaks = seq(cap, cap*10-1, by=cap)
+    }
+    ybreaks = c(ybreaks, newBreaks)
+    ynames = c(ynames, ifelse(newBreaks %in% (labels*cap),
+                              as.character(newBreaks), ""))
     cap = cap*10
   }
   names(ybreaks) = ynames
@@ -143,16 +148,22 @@ hydro_prob_breaks <- function(...){
 }
 
 #' @export
-hydro_flow_breaks <- function(){
+hydro_flow_breaks <- function(labels=NULL){
   return(function(x){
-    magnitudes = diff(log10(range(x)))
-    #if(magnitudes < 1){
-    #  return(flowBreaks(x, labels=seq(1,9)))
-    #} else if(magnitudes > 4){
-    #  return(flowBreaks(x, labels=c(1,5)))
-    #} else {
-    return(flowBreaks(x))
-    #}
+    magnitude = diff(log10(range(x)))
+    print(magnitude)
+    if(is.null(labels)){
+      if(magnitude <= 1){
+        return(flowBreaks(x, labels=seq(1,9)))
+      } else if(magnitude > 4){
+        return(flowBreaks(x, labels=c(1)))
+      } else {
+        return(flowBreaks(x, labels=c(1,2,3,5,7)))
+      }
+    } else {
+      return(flowBreaks(x, labels))
+    }
+
   })
 }
 
