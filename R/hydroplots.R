@@ -148,20 +148,20 @@ hydro_prob_breaks <- function(...){
 }
 
 #' @export
-hydro_flow_breaks <- function(labels=NULL){
+hydro_flow_breaks <- function(labels=NULL, ...){
   return(function(x){
     magnitude = diff(log10(range(x)))
     #print(magnitude)
     if(is.null(labels)){
       if(magnitude <= 1){
-        return(flowBreaks(x, labels=seq(1,9)))
+        return(flowBreaks(x, labels=seq(1,9), ...))
       } else if(magnitude > 4){
-        return(flowBreaks(x, labels=c(1)))
+        return(flowBreaks(x, labels=c(1), ...))
       } else {
-        return(flowBreaks(x, labels=c(1,2,3,5,7)))
+        return(flowBreaks(x, labels=c(1,2,3,4,5,7), ...))
       }
     } else {
-      return(flowBreaks(x, labels))
+      return(flowBreaks(x, labels, ...))
     }
 
   })
