@@ -10,12 +10,14 @@
 \alias{probBreaks}
 \title{Hydrologic axis transforms for ggplot2}
 \usage{
-flowBreaks(Q, labels = c(1, 2, 3, 5, 7))
+flowBreaks(Q, labels = c(1, 2, 3, 5, 7), blankLines = TRUE)
 }
 \arguments{
 \item{Q}{values for flow to create scale along}
 
 \item{labels}{First digit of breaks to label.  Defaults to 1,2,3,5,7 for log axes; 1,2,5 for probability axes.  Multiples of these are assumed.}
+
+\item{blankLines}{(default \code{true}) tells \code{flowBreaks} to draw an additional set of 10 lines between each major tic mark.}
 
 \item{maxLevel}{smallest place to which breaks should be created for probability axes.}
 
@@ -27,7 +29,7 @@ flowBreaks(Q, labels = c(1, 2, 3, 5, 7))
 
 \item{byPeriod}{Show labels with return interval (1 / probability)}
 
-\item{periodSuffix}{String to concatenate to return interval}
+\item{periodSuffix}{String to concatenate to return interval. (default \code{" yr"})}
 
 \item{distribution}{change distribution for probability axis, defaults to normal.  Untested with other distributions.}
 

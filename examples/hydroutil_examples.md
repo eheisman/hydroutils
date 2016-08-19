@@ -123,7 +123,7 @@ flowPeaks = ddply(donnerUndBlitzen, .(WY), summarize,
 flowPeaks$PROB = weibullProbs(flowPeaks$PEAK.FLOW)
 ggplot(flowPeaks, aes(x=PROB, y=PEAK.FLOW)) + geom_point() + 
   theme_bw(base_size=11) + theme(legend.position = "bottom", panel.grid.minor=element_blank()) +
-  scale_y_continuous(trans=hydro_flow_trans(), name="Peak Daily Flow [cfs]") + 
+  scale_y_continuous(trans=hydro_flow_trans(blankLines=FALSE), name="Peak Daily Flow [cfs]") + 
   scale_x_continuous(trans=hydro_prob_trans(lines=c(1,2,5), labels=c(1,2,5), byPeriod=TRUE), 
                      name="Annual Chance Exceedence") +
   ggtitle("Peak Annual Flow for\nDonner und Blitzen River\n(USGS 10396000)") +

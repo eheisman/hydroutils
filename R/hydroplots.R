@@ -43,9 +43,10 @@
 #' @param invert switch the direction of the probability axes
 #' @param as.percent Show labels by percent instead of probability
 #' @param byPeriod Show labels with return interval (1 / probability)
-#' @param periodSuffix String to concatenate to return interval
+#' @param periodSuffix String to concatenate to return interval. (default \code{" yr"})
 #' @param distribution change distribution for probability axis, defaults to normal.  Untested with other distributions.
 #' @param distArgs arguments pasted to distribution specified in \code{distribution}
+#' @param blankLines (default \code{true}) tells \code{flowBreaks} to draw an additional set of 10 lines between each major tic mark.
 #'
 #' @aliases hydro_flow_trans hydro_prob_trans hydro_prob_breaks hydro_flow_breaks flowBreaks probBreaks
 #' @examples
