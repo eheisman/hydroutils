@@ -51,8 +51,6 @@ wymonth = function(t){
 wyday <- function(t) {
   require(lubridate)
   ifelse(month(t) < 10, yday(t) + 92, yday(t) - (273 + leap_year(t)))
-  # old code
-  #as.integer(as.POSIXct(t) - as.POSIXct(paste0(wateryear(t)-1, "-10-01")))
 }
 
 #' @export
