@@ -181,7 +181,7 @@ donnerUndBlitzenSummary = ddply(donnerUndBlitzen, .(WYDAY), summarize,
                                 FLOW=quantile(FLOW, probs=FLOW.PROB))
 ggplot(donnerUndBlitzenSummary) + 
   geom_line(aes(x=WYDAY, y=FLOW, group=FLOW.PROB.LABEL, color=FLOW.PROB.LABEL)) +
-  xlab("Day of WY") + ylab("Inflow [cfs]") + ggtitle("Summary Hydrograph")
+  xlab("Day of WY") + ylab("Inflow [cfs]") + ggtitle("Summary Hydrograph") + theme_bw()
 ```
 
 ![](hydroutil_examples_files/figure-html/summary-hydrographs-4.png)<!-- -->
