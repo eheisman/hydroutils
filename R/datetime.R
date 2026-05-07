@@ -120,6 +120,10 @@ season.year = function(timestamps, seasons){
 }
 #season.year(test_timestamps, seasons_df)
 season.name = function(timestamps, seasons){
+  # Sort them first
+  year(seasons$STARTS) = 2000 # set arbitrary year
+  seasons = ddply(seasons, .(STARTS)) # order
+  # return the seasons
   seasons$NAME[season.index(timestamps, seasons)]
 }
 
