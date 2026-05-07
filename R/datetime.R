@@ -89,3 +89,54 @@ months14=function(splitMonths=c(7,11), splitDay=16, monthAbbrevs=wymonth.abb, se
            levels=periods, ordered=TRUE)
   })
 }
+
+# TODO: ROxygenize these.
+## These functions allow splitting a regular timeseries into "seasonal data"
+# for example:
+#seasons_df = data.frame(NAMES=c("WINTER", "SPRING", "SUMMER"), STARTS=c(as.Date("2000-10-01"), as.Date("2000-02-01"), as.Date("2001-06-01")))
+#test_timestamps = c(as.Date("2020-02-29"), as.Date("2020-05-02"), as.Date("2020-08-15"), as.Date("2020-11-01"), as.Date("2020-12-31"))
+season.index = function(timestamps, seasons){
+  require(lubridate)
+  year(seasons$STARTS) = 2000 # set arbitrary year
+  seasons = ddply(seasons, .(STARTS)) # order
+  sapply(timestamps, function(ts){
+    year(seasons$STARTS) = year(ts)
+    index = sum(ts >= seasons$STARTS)
+    if(index == 0) index = nrow(seasons)
+    return(index)
+  })
+}
+#season.index(test_timestamps, seasons_df)
+season.year = function(timestamps, seasons){
+  require(lubridate)
+  year(seasons$STARTS) = 2000 # set arbitrary year
+  seasons = ddply(seasons, .(STARTS)) # order
+  sapply(timestamps, function(ts){
+    year(seasons$STARTS) = year(ts)
+    index = sum(ts >= seasons$STARTS)
+    if(index == nrow(seasons)) return(year(ts) + 1)
+    return(year(ts))
+  })
+}
+#season.year(test_timestamps, seasons_df)
+season.name = function(timestamps, seasons){
+  seasons$NAME[season.index(timestamps, seasons)]
+}
+
+volsum <- function(vals, conversion_factor=AF_PER_CFS_DAY){
+  sum(vals) * conversion_factor
+}
+
+create_seasonal_volumes <- function(flow_ts, seasons_df, volume_function=volsum){
+  require(plyr)
+  require(lubridate)
+  require(ggplot2) # fortify.zoo still?
+  # TODO: preserve column names through this process?
+  ts_colname = colnames(flow_ts)
+  colnames(flow_ts) = "FLOW"
+  flow_df = fortify.zoo(flow_ts)
+  flow_df$SEASON = season.name.2(flow_df$Index, seasons_df)
+  flow_df$SEASON.YEAR = season.year.2(flow_df$Index, seasons_df)
+  return(ddply(flow_df, .(SEASON.YEAR, SEASON), summarize, VOL=sum(FLOW), START_TIME=first(Index), NVALS=length(FLOW)))
+}
+# seasonal_vols = create_seasonal_volumes(daily_inflow, seasons_df)

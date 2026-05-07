@@ -1,13 +1,21 @@
 # hydroutils
 An R package for handling hydrology data and plotting hydrologic frequency curves.  Forked from DSSRip to provide these functions in a cross-platform environment.  This package should not require the links to DSSVue and should be useful for more general hydrologic analysis.
 
+## Time functions
 `wateryear`, similar to the `lubridate` package's `year` function, returns the water year for a timestamp (starting 01 Oct of the previous calendar year). `wymonth` returns the month of the water year, starting with October, and the `wy.month.abb` constant contains the month abreviations in this order.  `wyday` returns the day of the wateryear, with 1 being Oct 1st and 356 or 366 being Sept 30th depending on if it is a leap year or not.
+
+`season.name` and `season.year` are provided for splitting a regular timeseries into seasonal groups, these operate on a timestamp (tested with `Date` objects, should work with `POSIXlt` as well).  These functions take a list of timestamps and return either a list of season names (from the seasons dataframe NAMES column, provided as an argument), or a year, which shifts dates falling in the _last_ season into the next year.  This allows groupings that don't align with calendar years -- that is, if "WINTER" is defined as starting on November 1st and goes through March 1st, values in November and December will return the following year, akin to the hydrologic water year.  The seasons dataframe should have two columns, "NAME" and "STARTS", where STARTS is the first day of the season, and run though the start of the next season.
+
+A `create_seasonal_volumes` function is also provided that uses this seasonal functionality to convert a daily flow timeseries to seasonal totals.
+
+## Fitting
 
 For assessing the fit of hydrologic models, the functions `nash.sutcliffe`, `rmse`, and `excelR2` are provided.  The `nash.sutcliffe` function supports an argument `x.alt` to replace the mean of the `x.obs` dataset with a different alternative model to provide more resolution in the resulting score.  This can either be the best 'dumb' model output, where no calibration is required to get a reasonable answer.
 
+## Frequency Curve Plots with `ggplot2`
 `weibullProbs` returns the corresponding Weibull plotting position for a given vector to plot on a flow-frequency graphic.
 
-`hydro_flow_trans` and `hydro_prob_trans` can be used with `ggplot`'s `scale_continuous` for axes to automatically apply flowBreaks and probBreaks.  These call the methods `flowBreaks` and `probBreaks` for generating breaks on a plot with logarithmic and normal-deviate axes, such as those used for flow frequency graphics.
+`hydro_flow_trans` and `hydro_prob_trans` can be used with `ggplot2`'s `scale_continuous` for axes to automatically apply flowBreaks and probBreaks.  These call the methods `flowBreaks` and `probBreaks` for generating breaks on a plot with logarithmic and normal-deviate axes, such as those used for flow frequency graphics.
 
 # Examples:
 
